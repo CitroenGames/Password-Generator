@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Password Generator</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f7f7f7;
+			margin: 0;
+			padding: 0;
+		}
+
+		h1 {
+			text-align: center;
+			margin-top: 50px;
+		}
+
+		form {
+			background-color: #fff;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0,0,0,0.1);
+			padding: 20px;
+			margin: 0 auto;
+			max-width: 400px;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		input[type="number"], input[type="text"], input[type="checkbox"], input[type="button"] {
+			padding: 10px;
+			font-size: 16px;
+			border: none;
+			border-radius: 3px;
+			box-shadow: 0 0 5px rgba(0,0,0,0.1);
+			margin-bottom: 20px;
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		input[type="checkbox"] {
+			display: inline-block;
+			margin-right: 5px;
+		}
+
+		input[type="button"] {
+			background-color: #0096d6;
+			color: #fff;
+			cursor: pointer;
+		}
+
+		input[type="button"]:hover {
+			background-color: #0080b3;
+		}
+
+		input[readonly] {
+			background-color: #eee;
+			cursor: pointer;
+			color: #555;
+		}
+	</style>
+	<script type="text/javascript">
+		function generatePassword(){
+			var passwordLength = document.getElementById("passwordLength").value;
+			var includeSpecialChar = document.getElementById("includeSpecialChar").checked;
+			var includeNumbers = document.getElementById("includeNumbers").checked;
+
+			var charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			var specialCharSet = "!@#$%^&*()_+~`|}{[]\\:;?><,./-=";
+			var numSet = "0123456789";
+
+			if(includeSpecialChar){
+				charSet += specialCharSet;
+			}
+
+			if(includeNumbers){
+				charSet += numSet;
+			}
+
+			var password = "";
+			for(var i = 0; i < passwordLength; i++){
+				password += charSet.charAt(Math.floor(Math.random() * charSet.length));
+			}
+
+			document.getElementById("generatedPassword").value = password;
+		}
+
+		function copyPassword(){
+			var password = document.getElementById("generatedPassword");
+			password.select();
+			password.setSelectionRange(0, 99999); /* For mobile devices */
+			document.execCommand("copy");
+			alert("Password copied to clipboard!");
+		}
+	</script>
+</head>
+<body>
+	<h1>Password Generator</h1>
+	<form>
+		<label for="passwordLength">Password Length:</label>
+		<input type="number" id="passwordLength" value="8" min="1" max="128">
+
+		<label>
+			<input type="checkbox" id="includeSpecialChar">
+			Include Special Characters
+		</label>
+
+		<label>
+			<input type="checkbox" id="includeNumbers">
+			Include Numbers
+		</label>
+
+		<input type="button" value="Generate Password" onclick="generatePassword()">
+        <label for="generatedPassword">Generated Password:</label>
+        <input type="text" id="generatedPassword" readonly onclick="copyPassword()">
+    </form>
+</body>
+</html> 
+
+
